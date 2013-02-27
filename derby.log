@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Wed Feb 27 16:31:24 CST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013d-1dc8-13a5-0000070a6830 
+on database directory C:\Users\jorr\Documents\NetBeansProjects\embedtests\testDerby  with class loader sun.misc.Launcher$AppClassLoader@1830e4a7 
+Loaded from file:/C:/Users/jorr/Documents/NetBeansProjects/embedtests/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_07-b10
+user.dir=C:\Users\jorr\Documents\NetBeansProjects\embedtests
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Feb 27 16:33:37 CST 2013: Shutting down Derby engine
+----------------------------------------------------------------
+Wed Feb 27 16:33:38 CST 2013:
+Shutting down instance a816c00e-013d-1dc8-13a5-0000070a6830 on database directory C:\Users\jorr\Documents\NetBeansProjects\embedtests\testDerby with class loader sun.misc.Launcher$AppClassLoader@1830e4a7 
+----------------------------------------------------------------

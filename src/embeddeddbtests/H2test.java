@@ -46,7 +46,7 @@ public class H2test extends AbstractDBTestClass {
     System.out.println("Starting H2...");
     Class.forName("org.h2.Driver");
     server = Server.createTcpServer();
-    conn = DriverManager.getConnection("jdbc:h2:~/h2test;", "sa", "");
+    conn = DriverManager.getConnection("jdbc:h2:h2test;", "sa", "");
     long tenkseq = System.nanoTime() - timeIn;
     System.out.println("H2 started in: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS) + "ms");
     PreparedStatement ps = null;

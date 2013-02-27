@@ -79,7 +79,7 @@ public class HSQLtest extends AbstractDBTestClass{
 
   }
   public void closeAndStop()throws Exception{
-    conn = DriverManager.getConnection("jdbc:hsqldb:file:test","sa", "");
+    conn = DriverManager.getConnection("jdbc:hsqldb:file:hsqltest","sa", "");
     conn.close();
   }
 }

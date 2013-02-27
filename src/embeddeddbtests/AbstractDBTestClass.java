@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,7 +33,8 @@ public abstract class AbstractDBTestClass {
     test(DEFAULTTS);
   }
   public void test(String defaultTimeStamp)throws Exception{
-       String tableName = createFiveWideTable(defaultTimeStamp);
+       String tableName = createSixWideTable(defaultTimeStamp);
+       String refTableName = createRefTable(defaultTimeStamp);
        System.out.println("Starting "+TESTCOUNT+" sequential writes");
        long timeIn = System.nanoTime();
        sequentialWriteTest(tableName);
@@ -51,7 +53,7 @@ public abstract class AbstractDBTestClass {
     }
   public void sequentialWriteTest(String tableName)throws Exception{
     for(int i=0;i<TESTCOUNT;i++){
-        String sql = "INSERT INTO "+tableName+"(ID, name,status,statusDetail) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO "+tableName+"(ID, name,status,statusDetail,vltraderid) VALUES (?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, i);
         ps.setString(2, i%2==0 ? name1 : name2);
@@ -62,22 +64,26 @@ public abstract class AbstractDBTestClass {
           ps.setString(3, i%3==1 ? status2 : status3);
           ps.setString(4, i%2==0 ? statusDetail1 : statusDetail2);
         }
+        ps.setInt(5, i%2==0 ? 1 : 777);
         ps.execute();
         ps.close();
       }
     }
     
     public String createFiveWideTable()throws Exception{
-      return createFiveWideTable(DEFAULTTS);
+      return createSixWideTable(DEFAULTTS);
     }
-    public String createFiveWideTable(String defaultTimeStamp)throws Exception{
+    public String createSixWideTable(String defaultTimeStamp)throws Exception{
         //5 wide table
-        String tableName = "fiveWideTable";
+        String tableName = "sixWideTable";
         //ID Field
         HashMap<String,String[]> fields = new HashMap<String,String[]>();
         String fieldName = "ID";
         String[] mods = {"INT","PRIMARY KEY"};
         fields.put(fieldName,mods);
+        fieldName = "vltraderID";
+        String[] mods5 = {"INT", "NOT NULL"};
+        fields.put(fieldName,mods5);
         //TimeStamp Field
         fieldName="writetime";
         String[] mods1 = {"TIMESTAMP", "DEFAULT", defaultTimeStamp};
@@ -97,6 +103,32 @@ public abstract class AbstractDBTestClass {
         
         createTable(tableName,fields);
         return tableName;
+    }
+    public String createRefTable(String defaultTimeStamp)throws Exception{
+      String tableName = "refTable";
+      HashMap<String,String[]> fields = new HashMap<String,String[]>();
+        String fieldName = "ID";
+        String[] mods = {"INT","PRIMARY KEY"};
+        fields.put(fieldName,mods);
+        fieldName="vltradername";
+        String[] mods2 = {"VARCHAR(50)"};
+        fields.put(fieldName,mods2);
+        createTable(tableName, fields);
+        String sql = "INSERT INTO refTable(ID,vltradername) VALUES(?,?)";
+        for(int i=0;i<1000;i++){
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, i);
+          if(i==1){
+            ps.setString(2,"vltrader1");
+          }else if(i==777){
+            ps.setString(2, "vltrader2");
+          }else{
+            ps.setString(2, UUID.randomUUID().toString().substring(1, 15));
+          }
+          ps.execute();
+        }
+        return tableName;
+      
     }
     public void createTable(String name, HashMap<String,String[]> fields) throws Exception{
         String sql= "CREATE TABLE "+name+"(";
