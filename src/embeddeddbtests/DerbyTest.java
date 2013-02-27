@@ -14,28 +14,30 @@ import java.util.concurrent.TimeUnit;
  *
  * @author jorr
  */
-public class HSQLtest extends AbstractDBTestClass{
-  final static String AUTONUM = "GENERATED ALWAYS AS IDENTITY";
+public class DerbyTest extends AbstractDBTestClass{
+  String AUTONUM="GENERATED ALWAYS AS IDENTITY";
+  static String DEFAULTTS="current_timestamp";
   public static void main(String[] args) {
-        // TODO code application logic here
-        try{
-            HSQLtest obj = new HSQLtest();
-            obj.init();
-            obj.test();
-            obj.closeAndStop();
-            
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        
+    // TODO code application logic here
+    try {
+      DerbyTest obj = new DerbyTest();
+      obj.init();
+      obj.test(DEFAULTTS);
+      obj.closeAndStop();
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-  public void init()throws Exception{
-    Class.forName("org.hsqldb.jdbc.JDBCDriver");
+
+  }
+  public void init() throws Exception {
+    String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+    Class.forName(driver).newInstance();
     long timeIn = System.nanoTime();
-    System.out.println("Starting HSQLDB...");
-    conn = DriverManager.getConnection("jdbc:hsqldb:file:hsqltest", "sa", "");
+    System.out.println("Starting Derby...");
+    conn = DriverManager.getConnection("jdbc:derby:testDerby;create=true", "sa", "");
     long tenkseq = System.nanoTime()-timeIn;
-    System.out.println("HSQLDB started in: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
+    System.out.println("Derby started in: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
     
     PreparedStatement ps = null;
     DatabaseMetaData md = conn.getMetaData();
@@ -79,7 +81,12 @@ public class HSQLtest extends AbstractDBTestClass{
 
   }
   public void closeAndStop()throws Exception{
-    conn = DriverManager.getConnection("jdbc:hsqldb:file:test","sa", "");
+    try{
+      conn = DriverManager.getConnection("jdbc:derby:;shutdown=true");
+    }catch(Exception e){
+      
+    }
     conn.close();
   }
+  
 }

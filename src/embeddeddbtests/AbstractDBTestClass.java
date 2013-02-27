@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class AbstractDBTestClass {
   String AUTONUM="";
+  String DEFAULTTS="NOW()";
   final int TESTCOUNT = 10000;
   Connection conn;
   String name1 = "Widgit";
@@ -28,7 +29,10 @@ public abstract class AbstractDBTestClass {
   public abstract void init() throws Exception;
   public abstract void closeAndStop()throws Exception;
   public void test()throws Exception{
-       String tableName = createFiveWideTable();
+    test(DEFAULTTS);
+  }
+  public void test(String defaultTimeStamp)throws Exception{
+       String tableName = createFiveWideTable(defaultTimeStamp);
        System.out.println("Starting "+TESTCOUNT+" sequential writes");
        long timeIn = System.nanoTime();
        sequentialWriteTest(tableName);
@@ -46,9 +50,7 @@ public abstract class AbstractDBTestClass {
        System.out.println(TESTCOUNT+" selects done("+TESTCOUNT/2+" per select) ,time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
     }
   public void sequentialWriteTest(String tableName)throws Exception{
-      
-      
-      for(int i=0;i<TESTCOUNT;i++){
+    for(int i=0;i<TESTCOUNT;i++){
         String sql = "INSERT INTO "+tableName+"(ID, name,status,statusDetail) VALUES (?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, i);
@@ -66,6 +68,9 @@ public abstract class AbstractDBTestClass {
     }
     
     public String createFiveWideTable()throws Exception{
+      return createFiveWideTable(DEFAULTTS);
+    }
+    public String createFiveWideTable(String defaultTimeStamp)throws Exception{
         //5 wide table
         String tableName = "fiveWideTable";
         //ID Field
@@ -75,7 +80,7 @@ public abstract class AbstractDBTestClass {
         fields.put(fieldName,mods);
         //TimeStamp Field
         fieldName="writetime";
-        String[] mods1 = {"TIMESTAMP", "DEFAULT", "NOW()"};
+        String[] mods1 = {"TIMESTAMP", "DEFAULT", defaultTimeStamp};
         fields.put(fieldName, mods1);
         //Name Field
         fieldName="name";
@@ -88,7 +93,6 @@ public abstract class AbstractDBTestClass {
         //Status 2 field
         fieldName="statusDetail";
         String[] mods4 = {"VARCHAR(50)"};
-        System.out.println("mods4.length = " + mods4.length);
         fields.put(fieldName, mods4);
         
         createTable(tableName,fields);
@@ -97,7 +101,7 @@ public abstract class AbstractDBTestClass {
     public void createTable(String name, HashMap<String,String[]> fields) throws Exception{
         String sql= "CREATE TABLE "+name+"(";
         for(String fieldName:fields.keySet()){
-          System.out.println("fieldName:"+fieldName);
+          
             if(!sql.endsWith("("))sql+=",";
             sql+=fieldName + " ";
             String mods[] = fields.get(fieldName);
