@@ -11,14 +11,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 import org.h2.tools.Server;
 
 /**
  *
  * @author josh
  */
-public class H2test {
-
+public class H2test extends AbstractDBTestClass{
+    final static String AUTONUM = "AUTO_INCREMENT";
     /**
      * @param args the command line arguments
      */
@@ -27,14 +28,15 @@ public class H2test {
         try{
             H2test obj = new H2test();
             obj.init();
-            obj.closeAndStop();
             obj.test();
+            obj.closeAndStop();
+            
         }catch(Exception e){
             e.printStackTrace();
         }
         
     }
-    Connection conn;
+    
     Server server;
     public void init()throws Exception{
         //setup server and connection
@@ -84,61 +86,5 @@ public class H2test {
     public void closeAndStop()throws Exception{
         conn.close();
         server.stop();
-    }
-    public void createTable(String name, HashMap<String,String[]> fields) throws Exception{
-        String sql= "CREATE TABLE "+name+"(";
-        for(String fieldName:fields.keySet()){
-            if(!sql.endsWith("("))sql+=",";
-            sql+=fieldName = " ";
-            String mods[] = fields.get(fieldName);
-            for(String mod:mods){
-                sql+=mod+" ";
-            }
-        }
-        sql+=")";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.execute();
-        ps.close();
-    }
-    public void dropTable(String name)throws Exception{
-        PreparedStatement ps = conn.prepareStatement("DROP TABLE "+name);
-        ps.execute();
-        ps.close();
-    }
-    public void test()throws Exception{
-       String tableName = createFiveWideTable();
-               
-    }
-    public void tenThousandSequentialWrites(String tableName){
-        
-    }
-    
-    public String createFiveWideTable()throws Exception{
-        //5 wide table
-        String tableName = "fiveWideTable";
-        //ID Field
-        HashMap<String,String[]> fields = new HashMap<String,String[]>();
-        String fieldName = "ID";
-        String[] mods = {"INT","PRIMARY KEY", "AUTO_INCREMENT"};
-        fields.put(fieldName,mods);
-        //TimeStamp Field
-        fieldName="writetime";
-        String[] mods1 = {"TIMESTAMP", "DEFAULT", "NOW()"};
-        fields.put(fieldName, mods1);
-        //Name Field
-        fieldName="name";
-        String[] mods2 = {"VARCHAR(50)"};
-        fields.put(fieldName,mods2);
-        //Status 1 field
-        fieldName="status1";
-        String[] mods3 = {"VARCHAR(50)"};
-        fields.put(fieldName,mods3);
-        //Status 2 field
-        fieldName="status2";
-        String[] mods4 = {"VARCHAR(50)"};
-        fields.put(fieldName, mods4);
-        
-        createTable(tableName,fields);
-        return tableName;
     }
 }
