@@ -1,0 +1,36 @@
+02-27 17:04:04 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Column "SIXWIDETABLE.ID" not found; SQL statement:
+SELECT sixWideTable.ID,sixWideTable.name,sixWideTable.writetime,sixWideTable.status,sixWideTable.statusDetailrefTable.vltradernameFROM sixWideTable,refTable WHERE sixWideTable.name=? [42122-170]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:141)
+	at org.h2.command.dml.Select.prepare(Select.java:799)
+	at org.h2.command.Parser.prepareCommand(Parser.java:218)
+	at org.h2.engine.Session.prepareLocal(Session.java:414)
+	at org.h2.engine.Session.prepareCommand(Session.java:363)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:74)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:267)
+	at embeddeddbtests.AbstractDBTestClass.sequentialSelectJoinTest(AbstractDBTestClass.java:203)
+	at embeddeddbtests.AbstractDBTestClass.test(AbstractDBTestClass.java:55)
+	at embeddeddbtests.AbstractDBTestClass.test(AbstractDBTestClass.java:33)
+	at embeddeddbtests.H2test.main(H2test.java:33)
+02-27 17:05:09 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Column "SIXWIDETABLE.STATUSDETAILREFTABLE.VLTRADERNAME" not found; SQL statement:
+SELECT sixWideTable.ID,sixWideTable.name,sixWideTable.writetime,sixWideTable.status,sixWideTable.statusDetailrefTable.vltradername FROM sixWideTable,refTable WHERE sixWideTable.name=? [42122-170]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:141)
+	at org.h2.command.dml.Select.prepare(Select.java:799)
+	at org.h2.command.Parser.prepareCommand(Parser.java:218)
+	at org.h2.engine.Session.prepareLocal(Session.java:414)
+	at org.h2.engine.Session.prepareCommand(Session.java:363)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:74)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:267)
+	at embeddeddbtests.AbstractDBTestClass.sequentialSelectJoinTest(AbstractDBTestClass.java:203)
+	at embeddeddbtests.AbstractDBTestClass.test(AbstractDBTestClass.java:55)
+	at embeddeddbtests.AbstractDBTestClass.test(AbstractDBTestClass.java:33)
+	at embeddeddbtests.H2test.main(H2test.java:33)

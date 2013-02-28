@@ -72,16 +72,16 @@ public class H2test extends AbstractDBTestClass {
       ps.execute();
       ps.close();
     }
-    System.out.println("read burn in...");
-    ps = conn.prepareStatement("select * from burnin");
-    rs = ps.executeQuery();
-    int printCounter = 0;
-    while (rs.next()) {
-      printCounter++;
-      if (printCounter % 250 == 0) {
-        System.out.println("\tname = " + rs.getString("name"));
-      }
-    }
+//    System.out.println("read burn in...");
+//    ps = conn.prepareStatement("select * from burnin");
+//    rs = ps.executeQuery();
+//    int printCounter = 0;
+//    while (rs.next()) {
+//      printCounter++;
+//      if (printCounter % 250 == 0) {
+//        System.out.println("\tname = " + rs.getString("name"));
+//      }
+//    }
     rs.close();
     ps.close();
     System.out.println("wiping burn in table");
@@ -93,5 +93,8 @@ public class H2test extends AbstractDBTestClass {
   public void closeAndStop() throws Exception {
     conn.close();
     server.stop();
+  }
+  public Connection getConnection()throws Exception{
+    return DriverManager.getConnection("jdbc:h2:h2test;", "sa", "");
   }
 }

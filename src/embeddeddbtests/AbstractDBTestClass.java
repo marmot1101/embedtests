@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,6 +22,8 @@ public abstract class AbstractDBTestClass {
   String AUTONUM="";
   String DEFAULTTS="NOW()";
   final int TESTCOUNT = 10000;
+  final int SMALLTESTCOUNT=10;
+  int coreCount = Runtime.getRuntime().availableProcessors();
   Connection conn;
   String name1 = "Widgit";
   String name2 = "flashyThing";
@@ -50,6 +55,18 @@ public abstract class AbstractDBTestClass {
        sequentialSelectTest(tableName);
        tenkseq = System.nanoTime()-timeIn;
        System.out.println(TESTCOUNT+" selects done("+TESTCOUNT/2+" per select) ,time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
+//       System.out.println("Starting "+SMALLTESTCOUNT+" sequential join selects");
+//       timeIn=System.nanoTime();
+//       sequentialSelectJoinTest(tableName,refTableName);
+//       tenkseq = System.nanoTime()-timeIn;
+//       System.out.println(SMALLTESTCOUNT+" join selects done("+TESTCOUNT/2+" per select) ,time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
+       dropTable(tableName);
+       tableName = createSixWideTable(defaultTimeStamp);
+       System.out.println("Starting "+TESTCOUNT+" concurrent writes");
+       timeIn=System.nanoTime();
+       concurrentWriteTest(tableName);
+       tenkseq = System.nanoTime()-timeIn;
+       System.out.println(TESTCOUNT+" concurrent writes done("+coreCount+2 +" concurrency) ,time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
     }
   public void sequentialWriteTest(String tableName)throws Exception{
     for(int i=0;i<TESTCOUNT;i++){
@@ -184,7 +201,67 @@ public abstract class AbstractDBTestClass {
         rs.close();
         ps.close();
       }
-      
     }
+    public void sequentialSelectJoinTest(String tableName, String refTableName) throws Exception{
+      String sql = "SELECT ";
+      sql += tableName + ".ID,";
+      sql += tableName + ".name,";
+      sql += tableName + ".writetime,";
+      sql += tableName + ".status,";
+      sql += tableName + ".statusDetail,";
+      sql += refTableName+".vltradername";
+      sql += " FROM " + tableName+","+refTableName + " WHERE "+tableName+".name=?";
+      for(int i=0;i<SMALLTESTCOUNT;i++){
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, i%2==1 ? name1 : name2);
+        ResultSet rs = ps.executeQuery();
+        rs.close();
+        ps.close();
+      }
+    }
+    
+    public void concurrentWriteTest(String tableName)throws Exception{
+      ExecutorService pool = Executors.newFixedThreadPool(coreCount+2);
+      for(int i=0;i<10000; i++){
+        pool.submit(new DBWriteTask(getConnection(), i, tableName));
+      }
+      pool.shutdown();
+    }
+    public abstract Connection getConnection()throws Exception;
   
+    private final class DBWriteTask implements Callable{
+      Connection conn;
+      int count;
+      String tableName;
+      
+      public DBWriteTask(Connection conn, int count, String tableName){
+        this.conn=conn;
+        this.count = count;
+        this.tableName = tableName;
+      }
+      public Object call(){
+        try{
+          
+          String sql = "INSERT INTO "+tableName+"(ID, name,status,statusDetail,vltraderid) VALUES (?,?,?,?,?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, count);
+        ps.setString(2, count%2==0 ? name1 : name2);
+        if(count%3==0){
+          ps.setString(3, status1);
+          ps.setString(4, "");
+        }else{
+          ps.setString(3, count%3==1 ? status2 : status3);
+          ps.setString(4, count%2==0 ? statusDetail1 : statusDetail2);
+        }
+        ps.setInt(5, count%2==0 ? 1 : 777);
+        ps.execute();
+        conn.close();
+        
+        }catch(Exception e ){
+          e.printStackTrace();
+        }        
+        
+        return null;
+      }
+    }
 }

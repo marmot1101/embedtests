@@ -4,6 +4,7 @@
  */
 package embeddeddbtests;
 
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,12 +17,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class HSQLtest extends AbstractDBTestClass{
   final static String AUTONUM = "GENERATED ALWAYS AS IDENTITY";
+  static String DEFAULTTS="NOW()";
   public static void main(String[] args) {
         // TODO code application logic here
         try{
             HSQLtest obj = new HSQLtest();
             obj.init();
             obj.test();
+//            String tableName = obj.createSixWideTable(DEFAULTTS);
+//            obj.concurrentWriteTest(tableName);
             obj.closeAndStop();
             
         }catch(Exception e){
@@ -60,16 +64,16 @@ public class HSQLtest extends AbstractDBTestClass{
       ps.execute();
       ps.close();
     }
-    System.out.println("read burn in...");
-    ps = conn.prepareStatement("select * from burnin");
-    rs = ps.executeQuery();
-    int printCounter = 0;
-    while (rs.next()) {
-      printCounter++;
-      if (printCounter % 250 == 0) {
-        System.out.println("\tname = " + rs.getString("name"));
-      }
-    }
+//    System.out.println("read burn in...");
+//    ps = conn.prepareStatement("select * from burnin");
+//    rs = ps.executeQuery();
+//    int printCounter = 0;
+//    while (rs.next()) {
+//      printCounter++;
+//      if (printCounter % 250 == 0) {
+//        System.out.println("\tname = " + rs.getString("name"));
+//      }
+//    }
     rs.close();
     ps.close();
     System.out.println("wiping burn in table");
@@ -82,4 +86,7 @@ public class HSQLtest extends AbstractDBTestClass{
     conn = DriverManager.getConnection("jdbc:hsqldb:file:hsqltest","sa", "");
     conn.close();
   }
+    public Connection getConnection()throws Exception{
+      return DriverManager.getConnection("jdbc:hsqldb:file:hsqltest", "sa", "");
+    }
 }

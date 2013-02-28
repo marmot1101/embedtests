@@ -4,6 +4,7 @@
  */
 package embeddeddbtests;
 
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,7 +23,9 @@ public class DerbyTest extends AbstractDBTestClass{
     try {
       DerbyTest obj = new DerbyTest();
       obj.init();
-      obj.test(DEFAULTTS);
+      //obj.test(DEFAULTTS);
+      String tableName = obj.createSixWideTable(DEFAULTTS);
+      obj.concurrentWriteTest(tableName);
       obj.closeAndStop();
 
     } catch (Exception e) {
@@ -62,16 +65,16 @@ public class DerbyTest extends AbstractDBTestClass{
       ps.execute();
       ps.close();
     }
-    System.out.println("read burn in...");
-    ps = conn.prepareStatement("select * from burnin");
-    rs = ps.executeQuery();
-    int printCounter = 0;
-    while (rs.next()) {
-      printCounter++;
-      if (printCounter % 250 == 0) {
-        System.out.println("\tname = " + rs.getString("name"));
-      }
-    }
+//    System.out.println("read burn in...");
+//    ps = conn.prepareStatement("select * from burnin");
+//    rs = ps.executeQuery();
+//    int printCounter = 0;
+//    while (rs.next()) {
+//      printCounter++;
+//      if (printCounter % 250 == 0) {
+//        System.out.println("\tname = " + rs.getString("name"));
+//      }
+//    }
     rs.close();
     ps.close();
     System.out.println("wiping burn in table");
@@ -88,5 +91,8 @@ public class DerbyTest extends AbstractDBTestClass{
     }
     conn.close();
   }
+  public Connection getConnection()throws Exception{
+      return DriverManager.getConnection("jdbc:derby:testDerby", "sa", "");
+    }
   
 }
