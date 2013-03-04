@@ -9,6 +9,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.h2.tools.Server;
@@ -30,7 +31,9 @@ public class H2test extends AbstractDBTestClass {
       H2test obj = new H2test();
       obj.init();
       obj.test();
+      obj.backupDB();
       obj.closeAndStop();
+      
       System.exit(0);
 
     } catch (Exception e) {
@@ -98,17 +101,21 @@ public class H2test extends AbstractDBTestClass {
     return DriverManager.getConnection("jdbc:h2:h2test;", "sa", "");
   }
   public String exportTable(String tableName)throws Exception{
-    //server.shutdown();
     String fileName="export"+new Random().nextInt(999)+".csv";
     String callString = "CALL CSVWRITE('"+fileName+"', 'SELECT * FROM "+tableName+"')";
     PreparedStatement ps = conn.prepareCall(callString);
     ps.execute();
     ps.close();
     return fileName;
-    //server.start();
   }
-  public  void backupDB()throws Exception{}
-  public  void restoreDB() throws Exception{}
+  public  void backupDB()throws Exception{
+      String sql = "BACKUP TO ('/home/josh/bk.zip')";
+      Statement s = conn.createStatement();
+      s.execute(sql);
+      s.close();
+      
+  }
+  
   public  void importTable(String tableName, String fileName)throws Exception{
     String sql = "CREATE TABLE "+tableName+"re AS SELECT * FROM CSVREAD('"+fileName+"')";
     PreparedStatement ps = conn.prepareCall(sql);

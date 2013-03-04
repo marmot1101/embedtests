@@ -70,8 +70,7 @@ public class MySQLtest extends AbstractDBTestClass{
   
   }
   public  void backupDB()throws Exception{}
-  public  void restoreDB() throws Exception{}
-  public  void importTable(String tableName)throws Exception{}
-  public  void exportTable(String tableName)throws Exception{}
+  public  void importTable(String tableName,String fileName)throws Exception{}
+  public  String exportTable(String tableName)throws Exception{return null;}
   
 }

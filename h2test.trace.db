@@ -1,0 +1,14 @@
+03-04 13:41:41 pageStore: Transaction log could not be truncated; size: 16 MB
+03-04 13:43:41 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-170]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.message.DbException.get(DbException.java:135)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1388)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1366)
+	at org.h2.jdbc.JdbcConnection.createStatement(JdbcConnection.java:192)
+	at embeddeddbtests.H2test.backupDB(H2test.java:113)
+	at embeddeddbtests.H2test.main(H2test.java:36)
+03-04 13:45:07 pageStore: Transaction log could not be truncated; size: 17 MB
+03-04 15:18:13 pageStore: Transaction log could not be truncated; size: 17 MB

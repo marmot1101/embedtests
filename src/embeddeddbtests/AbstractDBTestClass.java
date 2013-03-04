@@ -424,7 +424,6 @@ public abstract class AbstractDBTestClass {
     }
   }
   public abstract void backupDB()throws Exception;
-  public abstract void restoreDB() throws Exception;
   public abstract String exportTable(String tableName)throws Exception;
   public abstract void importTable(String tableName, String fileName)throws Exception;
 

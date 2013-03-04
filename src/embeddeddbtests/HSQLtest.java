@@ -9,6 +9,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.hsqldb.Server;
 
@@ -24,9 +26,8 @@ public class HSQLtest extends AbstractDBTestClass{
         try{
             HSQLtest obj = new HSQLtest();
             obj.init();
-            //obj.test();
-//            String tableName = obj.createSixWideTable(DEFAULTTS);
-//            obj.concurrentWriteTest(tableName);
+            obj.test();
+            obj.backupDB();
             obj.closeAndStop();
             System.exit(0);
             
@@ -69,16 +70,6 @@ public class HSQLtest extends AbstractDBTestClass{
       ps.execute();
       ps.close();
     }
-//    System.out.println("read burn in...");
-//    ps = conn.prepareStatement("select * from burnin");
-//    rs = ps.executeQuery();
-//    int printCounter = 0;
-//    while (rs.next()) {
-//      printCounter++;
-//      if (printCounter % 250 == 0) {
-//        System.out.println("\tname = " + rs.getString("name"));
-//      }
-//    }
     rs.close();
     ps.close();
     System.out.println("wiping burn in table");
@@ -96,8 +87,37 @@ public class HSQLtest extends AbstractDBTestClass{
       return DriverManager.getConnection("jdbc:hsqldb:file:hsqltest", "sa", "");
     }
     
-    public  void backupDB()throws Exception{}
-  public  void restoreDB() throws Exception{}
-  public  void importTable(String tableName)throws Exception{}
-  public  void exportTable(String tableName)throws Exception{}
+    public String exportTable(String tableName)throws Exception{
+//    String fileName="export"+new Random().nextInt(999)+".csv";
+//    String callString = "CALL CSVWRITE('"+fileName+"', 'SELECT * FROM "+tableName+"')";
+//    PreparedStatement ps = conn.prepareCall(callString);
+//    ps.execute();
+//    ps.close();
+//    return fileName;
+        return "";
+  }
+  public  void backupDB()throws Exception{
+      String sql = "BACKUP DATABASE TO '/home/josh/bk/'";
+      Statement s = conn.createStatement();
+      s.execute(sql);
+      s.close();
+      
+  }
+  
+  public  void importTable(String tableName, String fileName)throws Exception{
+//    String sql = "CREATE TABLE "+tableName+"re AS SELECT * FROM CSVREAD('"+fileName+"')";
+//    PreparedStatement ps = conn.prepareCall(sql);
+//    ps.execute();
+//    ps.close();
+//    sql = "SELECT * FROM "+tableName+"re WHERE ID<5";
+//    ps = conn.prepareStatement(sql);
+//    ResultSet rs = ps.executeQuery();
+//    while(rs.next()){
+//      System.out.println(rs.getString(1));
+//      System.out.println(rs.getString(2));
+//      System.out.println(rs.getString(3));
+//    }
+//    rs.close();
+//    ps.close();
+  }
 }

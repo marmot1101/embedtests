@@ -19,13 +19,11 @@ public class DerbyTest extends AbstractDBTestClass{
   String AUTONUM="GENERATED ALWAYS AS IDENTITY";
   static String DEFAULTTS="current_timestamp";
   public static void main(String[] args) {
-    // TODO code application logic here
+
     try {
       DerbyTest obj = new DerbyTest();
       obj.init();
       obj.test(DEFAULTTS);
-//      String tableName = obj.createSixWideTable(DEFAULTTS);
-//      obj.concurrentWriteTest(tableName);
       obj.closeAndStop();
       System.exit(0);
 
@@ -66,16 +64,6 @@ public class DerbyTest extends AbstractDBTestClass{
       ps.execute();
       ps.close();
     }
-//    System.out.println("read burn in...");
-//    ps = conn.prepareStatement("select * from burnin");
-//    rs = ps.executeQuery();
-//    int printCounter = 0;
-//    while (rs.next()) {
-//      printCounter++;
-//      if (printCounter % 250 == 0) {
-//        System.out.println("\tname = " + rs.getString("name"));
-//      }
-//    }
     rs.close();
     ps.close();
     System.out.println("wiping burn in table");
@@ -97,8 +85,7 @@ public class DerbyTest extends AbstractDBTestClass{
     }
   
   public  void backupDB()throws Exception{}
-  public  void restoreDB() throws Exception{}
-  public  void importTable(String tableName)throws Exception{}
-  public  void exportTable(String tableName)throws Exception{}
+  public  void importTable(String tableName, String fileName)throws Exception{}
+  public  String exportTable(String tableName)throws Exception{return null;}
   
 }
