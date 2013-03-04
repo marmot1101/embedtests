@@ -9,8 +9,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.h2.tools.Server;
 
@@ -32,6 +31,7 @@ public class H2test extends AbstractDBTestClass {
       obj.init();
       obj.test();
       obj.closeAndStop();
+      System.exit(0);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -96,5 +96,33 @@ public class H2test extends AbstractDBTestClass {
   }
   public Connection getConnection()throws Exception{
     return DriverManager.getConnection("jdbc:h2:h2test;", "sa", "");
+  }
+  public String exportTable(String tableName)throws Exception{
+    //server.shutdown();
+    String fileName="export"+new Random().nextInt(999)+".csv";
+    String callString = "CALL CSVWRITE('"+fileName+"', 'SELECT * FROM "+tableName+"')";
+    PreparedStatement ps = conn.prepareCall(callString);
+    ps.execute();
+    ps.close();
+    return fileName;
+    //server.start();
+  }
+  public  void backupDB()throws Exception{}
+  public  void restoreDB() throws Exception{}
+  public  void importTable(String tableName, String fileName)throws Exception{
+    String sql = "CREATE TABLE "+tableName+"re AS SELECT * FROM CSVREAD('"+fileName+"')";
+    PreparedStatement ps = conn.prepareCall(sql);
+    ps.execute();
+    ps.close();
+    sql = "SELECT * FROM "+tableName+"re WHERE ID<5";
+    ps = conn.prepareStatement(sql);
+    ResultSet rs = ps.executeQuery();
+    while(rs.next()){
+      System.out.println(rs.getString(1));
+      System.out.println(rs.getString(2));
+      System.out.println(rs.getString(3));
+    }
+    rs.close();
+    ps.close();
   }
 }

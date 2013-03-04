@@ -23,10 +23,11 @@ public class DerbyTest extends AbstractDBTestClass{
     try {
       DerbyTest obj = new DerbyTest();
       obj.init();
-      //obj.test(DEFAULTTS);
-      String tableName = obj.createSixWideTable(DEFAULTTS);
-      obj.concurrentWriteTest(tableName);
+      obj.test(DEFAULTTS);
+//      String tableName = obj.createSixWideTable(DEFAULTTS);
+//      obj.concurrentWriteTest(tableName);
       obj.closeAndStop();
+      System.exit(0);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -38,7 +39,7 @@ public class DerbyTest extends AbstractDBTestClass{
     Class.forName(driver).newInstance();
     long timeIn = System.nanoTime();
     System.out.println("Starting Derby...");
-    conn = DriverManager.getConnection("jdbc:derby:testDerby;create=true", "sa", "");
+    conn = getConnection();
     long tenkseq = System.nanoTime()-timeIn;
     System.out.println("Derby started in: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
     
@@ -92,7 +93,12 @@ public class DerbyTest extends AbstractDBTestClass{
     conn.close();
   }
   public Connection getConnection()throws Exception{
-      return DriverManager.getConnection("jdbc:derby:testDerby", "sa", "");
+      return DriverManager.getConnection("jdbc:derby:testDerby;create=true", "sa", "");
     }
+  
+  public  void backupDB()throws Exception{}
+  public  void restoreDB() throws Exception{}
+  public  void importTable(String tableName)throws Exception{}
+  public  void exportTable(String tableName)throws Exception{}
   
 }

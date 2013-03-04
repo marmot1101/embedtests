@@ -21,8 +21,9 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractDBTestClass {
   String AUTONUM="";
   String DEFAULTTS="NOW()";
-  final int TESTCOUNT = 10000;
-  final int SMALLTESTCOUNT=10;
+  final int BIGTESTCOUNT = 1000000;
+  final int TESTCOUNT = 1000;
+  final int SMALLTESTCOUNT=5;
   int coreCount = Runtime.getRuntime().availableProcessors();
   Connection conn;
   String name1 = "Widgit";
@@ -43,31 +44,76 @@ public abstract class AbstractDBTestClass {
        System.out.println("Starting "+TESTCOUNT+" sequential writes");
        long timeIn = System.nanoTime();
        sequentialWriteTest(tableName);
-       long tenkseq = System.nanoTime()-timeIn;
-       System.out.println(TESTCOUNT+" writes done, time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
+       long timeOut = System.nanoTime()-timeIn;
+       System.out.println(TESTCOUNT+" writes done, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");
+       System.out.println("Starting table export");
+       timeIn = System.nanoTime();
+       String bkFileName = exportTable(tableName);
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println("Export done, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+       System.out.println("Starting table import");
+       timeIn = System.nanoTime();
+       importTable(tableName,bkFileName);
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println("Import done, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+//       dropTable(tableName);
+//       tableName=createSixWideTable(defaultTimeStamp);
+//       System.out.println("Starting "+TESTCOUNT+" sequential writes committing on 50");
+//       timeIn = System.nanoTime();
+//       sequentialWriteTestAutoCommitOff(tableName);
+//       timeOut = System.nanoTime()-timeIn;
+//       System.out.println(TESTCOUNT+" writes done, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
        System.out.println("Starting "+TESTCOUNT+" sequential reads");
        timeIn=System.nanoTime();
        sequentialReadTest(tableName);
-       tenkseq = System.nanoTime()-timeIn;
-       System.out.println(TESTCOUNT+" reads done, time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println(TESTCOUNT+" reads done, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
        System.out.println("Starting "+TESTCOUNT+" sequential selects");
        timeIn=System.nanoTime();
        sequentialSelectTest(tableName);
-       tenkseq = System.nanoTime()-timeIn;
-       System.out.println(TESTCOUNT+" selects done("+TESTCOUNT/2+" per select) ,time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
-//       System.out.println("Starting "+SMALLTESTCOUNT+" sequential join selects");
-//       timeIn=System.nanoTime();
-//       sequentialSelectJoinTest(tableName,refTableName);
-//       tenkseq = System.nanoTime()-timeIn;
-//       System.out.println(SMALLTESTCOUNT+" join selects done("+TESTCOUNT/2+" per select) ,time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println(TESTCOUNT+" selects done("+TESTCOUNT/2+" per select) ,time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+       System.out.println("Starting "+SMALLTESTCOUNT+" sequential join selects");
+       timeIn=System.nanoTime();
+       sequentialSelectJoinTest(tableName,refTableName);
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println(SMALLTESTCOUNT+" join selects done("+TESTCOUNT/2+" per select) ,time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+      
        dropTable(tableName);
        tableName = createSixWideTable(defaultTimeStamp);
        System.out.println("Starting "+TESTCOUNT+" concurrent writes");
        timeIn=System.nanoTime();
        concurrentWriteTest(tableName);
-       tenkseq = System.nanoTime()-timeIn;
-       System.out.println(TESTCOUNT+" concurrent writes done("+coreCount+2 +" concurrency) ,time to complete: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS)+ "ms");     
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println(TESTCOUNT+" concurrent writes done("+(coreCount+2) +" concurrency) ,time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+       System.out.println("Starting "+TESTCOUNT+" concurrent reads");
+       timeIn=System.nanoTime();
+       concurrentReadTest(tableName);
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println(TESTCOUNT+" concurrent reads done("+(coreCount+2) +" concurrency) ,time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+       System.out.println("sleeping to allow concurrent writes to finish");
+       dropTable(tableName);
+       tableName=createSixWideTable(defaultTimeStamp);
+       System.out.println("Starting "+BIGTESTCOUNT+" writes");
+       timeIn=System.nanoTime();
+       bigWriteTest(tableName);
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println(BIGTESTCOUNT+" sequential writes, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+       System.out.println("Starting "+BIGTESTCOUNT+" sequential reads");
+       timeIn=System.nanoTime();
+       bigSequentialReadTest(tableName);
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println(BIGTESTCOUNT+" sequential reads, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+       
+       System.out.println("Starting "+BIGTESTCOUNT+" sequential selects, capped at 250 records per");
+       timeIn=System.nanoTime();
+       bigSequentialSelectTest(tableName);
+       timeOut = System.nanoTime()-timeIn;
+       System.out.println(BIGTESTCOUNT+" sequential selects, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");     
+       
+       
     }
+  
   public void sequentialWriteTest(String tableName)throws Exception{
     for(int i=0;i<TESTCOUNT;i++){
         String sql = "INSERT INTO "+tableName+"(ID, name,status,statusDetail,vltraderid) VALUES (?,?,?,?,?)";
@@ -86,8 +132,30 @@ public abstract class AbstractDBTestClass {
         ps.close();
       }
     }
+  public void sequentialWriteTestAutoCommitOff(String tableName)throws Exception{
+    conn.setAutoCommit(false);
+    for(int i=0;i<TESTCOUNT;i++){
+        String sql = "INSERT INTO "+tableName+"(ID, name,status,statusDetail,vltraderid) VALUES (?,?,?,?,?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, i);
+        ps.setString(2, i%2==0 ? name1 : name2);
+        if(i%3==0){
+          ps.setString(3, status1);
+          ps.setString(4, "");
+        }else{
+          ps.setString(3, i%3==1 ? status2 : status3);
+          ps.setString(4, i%2==0 ? statusDetail1 : statusDetail2);
+        }
+        ps.setInt(5, i%2==0 ? 1 : 777);
+        ps.execute();
+        ps.close();
+        if(i%5==0){
+          conn.commit();
+        }
+      }
+    }
     
-    public String createFiveWideTable()throws Exception{
+    public String createSixWideTable()throws Exception{
       return createSixWideTable(DEFAULTTS);
     }
     public String createSixWideTable(String defaultTimeStamp)throws Exception{
@@ -210,7 +278,7 @@ public abstract class AbstractDBTestClass {
       sql += tableName + ".status,";
       sql += tableName + ".statusDetail,";
       sql += refTableName+".vltradername";
-      sql += " FROM " + tableName+","+refTableName + " WHERE "+tableName+".name=?";
+      sql += " FROM " + tableName+","+refTableName + " WHERE "+tableName+".name=? ";
       for(int i=0;i<SMALLTESTCOUNT;i++){
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, i%2==1 ? name1 : name2);
@@ -220,48 +288,144 @@ public abstract class AbstractDBTestClass {
       }
     }
     
-    public void concurrentWriteTest(String tableName)throws Exception{
-      ExecutorService pool = Executors.newFixedThreadPool(coreCount+2);
-      for(int i=0;i<10000; i++){
-        pool.submit(new DBWriteTask(getConnection(), i, tableName));
-      }
-      pool.shutdown();
-    }
-    public abstract Connection getConnection()throws Exception;
-  
-    private final class DBWriteTask implements Callable{
-      Connection conn;
-      int count;
-      String tableName;
+    public void concurrentWriteTest(String tableName) throws Exception {
+    ExecutorService pool = Executors.newFixedThreadPool(coreCount);
+    for (int i = 0; i < TESTCOUNT; i++) {
+      pool.submit(new DBWriteTask( i, tableName));
       
-      public DBWriteTask(Connection conn, int count, String tableName){
-        this.conn=conn;
-        this.count = count;
-        this.tableName = tableName;
+      System.gc();
+    }
+    
+    pool.shutdown();
+    System.out.println("Waiting for write threads to finish...");
+      pool.awaitTermination(2, TimeUnit.MINUTES);
+    
+  }
+    public void concurrentReadTest(String tableName) throws Exception {
+    ExecutorService pool = Executors.newFixedThreadPool(coreCount);
+    for (int i = 0; i < TESTCOUNT; i++) {
+      pool.submit(new DBReadTask(i, tableName));
+      
+    }    
+    pool.shutdown();
+    System.out.println("Waiting for write threads to finish...");
+      pool.awaitTermination(2, TimeUnit.MINUTES);
+  }
+    public void bigWriteTest(String tableName) throws Exception {
+    for (int i = 0; i < BIGTESTCOUNT; i++) {
+      String sql = "INSERT INTO " + tableName + "(ID, name,status,statusDetail,vltraderid) VALUES (?,?,?,?,?)";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setInt(1, i);
+      ps.setString(2, i % 2 == 0 ? name1 : name2);
+      if (i % 3 == 0) {
+        ps.setString(3, status1);
+        ps.setString(4, "");
+      } else {
+        ps.setString(3, i % 3 == 1 ? status2 : status3);
+        ps.setString(4, i % 2 == 0 ? statusDetail1 : statusDetail2);
       }
-      public Object call(){
-        try{
-          
-          String sql = "INSERT INTO "+tableName+"(ID, name,status,statusDetail,vltraderid) VALUES (?,?,?,?,?)";
+      ps.setInt(5, i % 2 == 0 ? 1 : 777);
+      ps.execute();
+      ps.close();
+    }
+  }  
+    public void bigSequentialReadTest(String tableName) throws Exception{
+      for(int i=0;i<BIGTESTCOUNT;i++){
+        PreparedStatement ps = conn.prepareStatement("SELECT ID,name,writetime,status,statusDetail FROM "+tableName+" WHERE ID=?");
+        ps.setInt(1, i);
+        ResultSet rs = ps.executeQuery();
+        rs.close();
+        ps.close();        
+      }
+    }
+    public void bigSequentialSelectTest(String tableName) throws Exception{
+      for(int i=0;i<BIGTESTCOUNT;i++){
+        PreparedStatement ps = conn.prepareStatement("SELECT ID,name,writetime,status,statusDetail FROM "+tableName+ " WHERE name=? AND ID<500");
+        ps.setString(1, i%2==1 ? name1 : name2);
+        ResultSet rs = ps.executeQuery();
+        rs.close();
+        ps.close();
+      }
+    }
+
+  public abstract Connection getConnection() throws Exception;
+
+  private final class DBWriteTask implements Callable {
+
+    Connection conn;
+    int count;
+    String tableName;
+
+    public DBWriteTask( int count, String tableName) {
+      
+      this.count = count;
+      this.tableName = tableName;
+    }
+
+    public Object call() {
+      try {
+        conn = getConnection();
+        String sql = "INSERT INTO " + tableName + "(ID, name,status,statusDetail,vltraderid) VALUES (?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, count);
-        ps.setString(2, count%2==0 ? name1 : name2);
-        if(count%3==0){
+        ps.setString(2, count % 2 == 0 ? name1 : name2);
+        if (count % 3 == 0) {
           ps.setString(3, status1);
           ps.setString(4, "");
-        }else{
-          ps.setString(3, count%3==1 ? status2 : status3);
-          ps.setString(4, count%2==0 ? statusDetail1 : statusDetail2);
+        } else {
+          ps.setString(3, count % 3 == 1 ? status2 : status3);
+          ps.setString(4, count % 2 == 0 ? statusDetail1 : statusDetail2);
         }
-        ps.setInt(5, count%2==0 ? 1 : 777);
+        ps.setInt(5, count % 2 == 0 ? 1 : 777);
         ps.execute();
+        ps.close();
         conn.close();
+        System.gc();
         
-        }catch(Exception e ){
-          e.printStackTrace();
-        }        
-        
-        return null;
+
+      } catch (Exception e) {
+        System.out.println("DB WRITE NUM:" + count);
+        e.printStackTrace();
       }
+
+      return null;
     }
+  }
+
+  private final class DBReadTask implements Callable {
+
+    Connection conn;
+    int count;
+    String tableName;
+
+    public DBReadTask( int count, String tableName) {
+      
+      this.count = count;
+      this.tableName = tableName;
+    }
+
+    public Object call() {
+      try {
+        conn = getConnection();
+        PreparedStatement ps = conn.prepareStatement("SELECT ID,name,writetime,status,statusDetail FROM " + tableName + " WHERE ID=?");
+        ps.setInt(1, count);
+        ResultSet rs = ps.executeQuery();
+        rs.close();
+        ps.close();
+        conn.close();
+        System.gc();
+
+      } catch (Exception e) {
+        System.out.println("DB WRITE NUM:" + count);
+        e.printStackTrace();
+      }
+
+      return null;
+    }
+  }
+  public abstract void backupDB()throws Exception;
+  public abstract void restoreDB() throws Exception;
+  public abstract String exportTable(String tableName)throws Exception;
+  public abstract void importTable(String tableName, String fileName)throws Exception;
+
 }

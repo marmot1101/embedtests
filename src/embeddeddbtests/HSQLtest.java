@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.concurrent.TimeUnit;
+import org.hsqldb.Server;
 
 /**
  *
@@ -23,17 +24,21 @@ public class HSQLtest extends AbstractDBTestClass{
         try{
             HSQLtest obj = new HSQLtest();
             obj.init();
-            obj.test();
+            //obj.test();
 //            String tableName = obj.createSixWideTable(DEFAULTTS);
 //            obj.concurrentWriteTest(tableName);
             obj.closeAndStop();
+            System.exit(0);
             
         }catch(Exception e){
             e.printStackTrace();
         }
         
     }
+  Server server;
   public void init()throws Exception{
+    server = new Server();
+    server.start();
     Class.forName("org.hsqldb.jdbc.JDBCDriver");
     long timeIn = System.nanoTime();
     System.out.println("Starting HSQLDB...");
@@ -83,10 +88,16 @@ public class HSQLtest extends AbstractDBTestClass{
 
   }
   public void closeAndStop()throws Exception{
-    conn = DriverManager.getConnection("jdbc:hsqldb:file:hsqltest","sa", "");
-    conn.close();
+    
+      server.stop();
+      conn.close();
   }
     public Connection getConnection()throws Exception{
       return DriverManager.getConnection("jdbc:hsqldb:file:hsqltest", "sa", "");
     }
+    
+    public  void backupDB()throws Exception{}
+  public  void restoreDB() throws Exception{}
+  public  void importTable(String tableName)throws Exception{}
+  public  void exportTable(String tableName)throws Exception{}
 }
