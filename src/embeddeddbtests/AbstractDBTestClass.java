@@ -46,6 +46,8 @@ public abstract class AbstractDBTestClass {
        sequentialWriteTest(tableName);
        long timeOut = System.nanoTime()-timeIn;
        System.out.println(TESTCOUNT+" writes done, time to complete: " + TimeUnit.MILLISECONDS.convert(timeOut, TimeUnit.NANOSECONDS)+ "ms");
+       System.out.println("Transaction Test Results:");
+       transactionTest(tableName);
        System.out.println("Starting table export");
        timeIn = System.nanoTime();
        String bkFileName = exportTable(tableName);
@@ -426,5 +428,51 @@ public abstract class AbstractDBTestClass {
   public abstract void backupDB()throws Exception;
   public abstract String exportTable(String tableName)throws Exception;
   public abstract void importTable(String tableName, String fileName)throws Exception;
-
+  public void transactionTest(String tableName)throws Exception{
+    int id=TESTCOUNT+100;
+    conn.setAutoCommit(false);
+    
+    String sql = "Insert INTO "+tableName+ "(ID,name,vltraderid) VALUES(?,?,1)";
+    PreparedStatement ps = conn.prepareStatement(sql);
+    ps.setInt(1, id);
+    ps.setString(2, "tester");
+    ps.execute();
+    conn.rollback();
+    String readSql = "SELECT * FROM " + tableName + " WHERE ID="+id;
+    PreparedStatement ps2 = conn.prepareStatement(readSql);
+    ResultSet rs = ps2.executeQuery();
+    while(rs.next()){ 
+      System.out.println("failed rollback"); 
+      rs.close();
+      ps2.close();
+      ps.close();
+      conn.setAutoCommit(true);
+      return;
+    }
+    rs.close();
+    ps2.close();
+    ps.close();
+    
+    ps = conn.prepareStatement(sql);
+    ps.setInt(1, id);
+    ps.setString(2, "tester");
+    ps.execute();
+    conn.commit();
+    ps2 = conn.prepareStatement(readSql);
+    rs = ps2.executeQuery();
+    boolean success = false;
+    while(rs.next()){
+      success=true;
+      System.out.println(rs.getString("name"));
+    }
+    if(success){
+      System.out.println("Success on transaction");
+    }else{
+      System.out.println("Transaction Failure");
+    }
+    rs.close();
+    ps2.close();
+    ps.close();
+    conn.setAutoCommit(true);
+  }
 }
