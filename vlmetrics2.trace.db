@@ -1,0 +1,365 @@
+03-13 09:51:00 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""ACTIVEACTION"" (
+  ""ID"" INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  ""VLTRADERID"" INT(10) UNSIGNED NOT NULL COMMENT 'vltrader alias id',
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON[*] UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  ""ACTAUTORUNCOUNT"" INT(11) DEFAULT NULL COMMENT 'autorun actions current active count',
+  ""ACTINTERACTIVECOUNT"" INT(11) DEFAULT NULL COMMENT 'interactive actions current count',
+  ""ACTSCHEDULEDCOUNT"" INT(11) DEFAULT NULL COMMENT 'scheduled actions count',
+  PRIMARY KEY (""ID""),
+  KEY ""VLTRADERID"" (""VLTRADERID""),
+  CONSTRAINT ""ACTIVEACTION_IBFK_1"" FOREIGN KEY (""VLTRADERID"") REFERENCES ""VLTRADERS"" (""ID"")
+) "; expected "(, [, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `activeaction` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  `vltraderID` int(10) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `actautoruncount` int(11) DEFAULT NULL COMMENT 'autorun actions current active count',
+  `actinteractivecount` int(11) DEFAULT NULL COMMENT 'interactive actions current count',
+  `actscheduledcount` int(11) DEFAULT NULL COMMENT 'scheduled actions count',
+  PRIMARY KEY (`ID`),
+  KEY `vltraderid` (`vltraderID`),
+  CONSTRAINT `activeaction_ibfk_1` FOREIGN KEY (`vltraderid`) REFERENCES `vltraders` (`ID`)
+) [42001-170]
+03-13 10:18:04 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""ACTIVEACTION"" (
+  ""ID"" INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  ""VLTRADERID"" INT(10) UNSIGNED NOT NULL ,
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON[*] UPDATE CURRENT_TIMESTAMP ,
+  ""ACTAUTORUNCOUNT"" INT(11) DEFAULT NULL ,
+  ""ACTINTERACTIVECOUNT"" INT(11) DEFAULT NULL ,
+  ""ACTSCHEDULEDCOUNT"" INT(11) DEFAULT NULL,
+  PRIMARY KEY (""ID""),
+  KEY ""VLTRADERID"" (""VLTRADERID""),
+  CONSTRAINT ""ACTIVEACTION_IBFK_1"" FOREIGN KEY (""VLTRADERID"") REFERENCES ""VLTRADERS"" (""ID"")
+) "; expected "(, [, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `activeaction` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `vltraderID` int(10) unsigned NOT NULL ,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
+  `actautoruncount` int(11) DEFAULT NULL ,
+  `actinteractivecount` int(11) DEFAULT NULL ,
+  `actscheduledcount` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `vltraderid` (`vltraderID`),
+  CONSTRAINT `activeaction_ibfk_1` FOREIGN KEY (`vltraderid`) REFERENCES `vltraders` (`ID`)
+) [42001-170]
+03-13 10:18:40 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""ACTIVEACTION"" (
+  ""ID"" INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  ""VLTRADERID"" INT(10) UNSIGNED NOT NULL ,
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON[*] UPDATE CURRENT_TIMESTAMP ,
+  ""ACTAUTORUNCOUNT"" INT(11) DEFAULT NULL ,
+  ""ACTINTERACTIVECOUNT"" INT(11) DEFAULT NULL ,
+  ""ACTSCHEDULEDCOUNT"" INT(11) DEFAULT NULL,
+  PRIMARY KEY (""ID""),
+  
+) "; expected "(, [, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `activeaction` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `vltraderID` int(10) unsigned NOT NULL ,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
+  `actautoruncount` int(11) DEFAULT NULL ,
+  `actinteractivecount` int(11) DEFAULT NULL ,
+  `actscheduledcount` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  
+) [42001-170]
+03-13 10:20:08 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""ACTIVEACTION"" (
+  ""ID"" INT(10)  NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  ""VLTRADERID"" INT(10)  NOT NULL COMMENT 'vltrader alias id',
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON[*] UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  ""ACTAUTORUNCOUNT"" INT(11) DEFAULT NULL COMMENT 'autorun actions current active count',
+  ""ACTINTERACTIVECOUNT"" INT(11) DEFAULT NULL COMMENT 'interactive actions current count',
+  ""ACTSCHEDULEDCOUNT"" INT(11) DEFAULT NULL COMMENT 'scheduled actions count',
+  PRIMARY KEY (""ID""),
+  KEY ""VLTRADERID"" (""VLTRADERID""),
+  CONSTRAINT ""ACTIVEACTION_IBFK_1"" FOREIGN KEY (""VLTRADERID"") REFERENCES ""VLTRADERS"" (""ID"")
+) "; expected "(, [, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `activeaction` (
+  `ID` int(10)  NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  `vltraderID` int(10)  NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `actautoruncount` int(11) DEFAULT NULL COMMENT 'autorun actions current active count',
+  `actinteractivecount` int(11) DEFAULT NULL COMMENT 'interactive actions current count',
+  `actscheduledcount` int(11) DEFAULT NULL COMMENT 'scheduled actions count',
+  PRIMARY KEY (`ID`),
+  KEY `vltraderid` (`vltraderID`),
+  CONSTRAINT `activeaction_ibfk_1` FOREIGN KEY (`vltraderid`) REFERENCES `vltraders` (`ID`)
+) [42001-170]
+03-13 10:31:04 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Unknown data type: "VLTRADERID"; SQL statement:
+CREATE TABLE `activeaction` (
+  `ID` int(10)  NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  `vltraderID` int(10)  NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL,
+  `actautoruncount` int(11) ,
+  `actinteractivecount` int(11) ,
+  `actscheduledcount` int(11),
+  PRIMARY KEY (`ID`),
+  KEY `vltraderid` (`vltraderID`),
+  CONSTRAINT `activeaction_ibfk_1` FOREIGN KEY (`vltraderid`) REFERENCES `vltraders` (`ID`)
+) [50004-170]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:3653)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:3516)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:5212)
+	at org.h2.command.Parser.parseCreate(Parser.java:3805)
+	at org.h2.command.Parser.parsePrepared(Parser.java:323)
+	at org.h2.command.Parser.parse(Parser.java:278)
+	at org.h2.command.Parser.parse(Parser.java:250)
+	at org.h2.command.Parser.prepareCommand(Parser.java:217)
+	at org.h2.engine.Session.prepareLocal(Session.java:414)
+	at org.h2.engine.Session.prepareCommand(Session.java:363)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:164)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1311)
+	at org.h2.server.web.WebApp.query(WebApp.java:1001)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:964)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:953)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+03-13 10:44:33 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Unknown data type: "POOLID"; SQL statement:
+CREATE TABLE `vltraders` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'vltrader autoincrement ID',
+  `vltraderalias` char(25) DEFAULT NULL COMMENT 'vltrader alias',
+  `vltraderserial` varchar(25) DEFAULT NULL COMMENT 'vltrader serial number',
+  `poolID` int(10) unsigned DEFAULT NULL COMMENT 'synch pool ID',
+  `schedulerstatus` int(11) unsigned DEFAULT NULL COMMENT 'scheduler status(tied to statuscodes)',
+  `schlastrestart` datetime DEFAULT NULL COMMENT 'time of last scheduler restart',
+  `routerstatus` int(11) unsigned DEFAULT NULL COMMENT 'router status(tied to statuscodes)',
+  `routerlastrestart` datetime DEFAULT NULL COMMENT 'time of last router restart',
+  `dbpayloadstatus` int(11) unsigned DEFAULT NULL COMMENT 'ID reference to statuscodes table',
+  `dbpayloadconnection` int(11) DEFAULT NULL COMMENT 'ID reference to statuscodes',
+  `dbpayloadbacklog` int(11) DEFAULT NULL COMMENT 'backlog count of database payload',
+  `pendingdeletions` int(11) DEFAULT NULL COMMENT 'count of pending file deletions',
+  PRIMARY KEY (`ID`),
+  KEY `poolID` (`poolID`),
+  KEY `schedulerstatus` (`schedulerstatus`),
+  KEY `routerstatus` (`routerstatus`),
+  KEY `dbpayloadstatus` (`dbpayloadstatus`),
+  CONSTRAINT `vltraders_ibfk_2` FOREIGN KEY (`schedulerstatus`) REFERENCES `statuscodes` (`ID`),
+  CONSTRAINT `vltraders_ibfk_3` FOREIGN KEY (`routerstatus`) REFERENCES `statuscodes` (`ID`),
+  CONSTRAINT `vltraders_ibfk_4` FOREIGN KEY (`dbpayloadstatus`) REFERENCES `statuscodes` (`ID`),
+  CONSTRAINT `vltraders_ibfk_1` FOREIGN KEY (`poolID`) REFERENCES `vltpools` (`ID`)
+) [50004-170]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:3653)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:3516)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:5212)
+	at org.h2.command.Parser.parseCreate(Parser.java:3805)
+	at org.h2.command.Parser.parsePrepared(Parser.java:323)
+	at org.h2.command.Parser.parse(Parser.java:278)
+	at org.h2.command.Parser.parse(Parser.java:250)
+	at org.h2.command.Parser.prepareCommand(Parser.java:217)
+	at org.h2.engine.Session.prepareLocal(Session.java:414)
+	at org.h2.engine.Session.prepareCommand(Session.java:363)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:164)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1311)
+	at org.h2.server.web.WebApp.query(WebApp.java:1001)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:964)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:953)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+03-13 10:47:35 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""ACTIVEACTION"" (
+  ""ID"" INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  ""VLTRADERID"" INT(10) UNSIGNED NOT NULL COMMENT 'vltrader alias id',
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON[*] UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  ""ACTAUTORUNCOUNT"" INT(11) DEFAULT NULL COMMENT 'autorun actions current active count',
+  ""ACTINTERACTIVECOUNT"" INT(11) DEFAULT NULL COMMENT 'interactive actions current count',
+  ""ACTSCHEDULEDCOUNT"" INT(11) DEFAULT NULL COMMENT 'scheduled actions count',
+  PRIMARY KEY (""ID""),
+  KEY ""VLTRADERID"" (""VLTRADERID""),
+  CONSTRAINT ""ACTIVEACTION_IBFK_1"" FOREIGN KEY (""VLTRADERID"") REFERENCES ""VLTRADERS"" (""ID"")
+) "; expected "(, [, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `activeaction` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  `vltraderID` int(10) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `actautoruncount` int(11) DEFAULT NULL COMMENT 'autorun actions current active count',
+  `actinteractivecount` int(11) DEFAULT NULL COMMENT 'interactive actions current count',
+  `actscheduledcount` int(11) DEFAULT NULL COMMENT 'scheduled actions count',
+  PRIMARY KEY (`ID`),
+  KEY `vltraderid` (`vltraderID`),
+  CONSTRAINT `activeaction_ibfk_1` FOREIGN KEY (`vltraderid`) REFERENCES `vltraders` (`ID`)
+) [42001-170]
+03-13 10:47:49 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""ACTIVEACTION"" (
+  ""ID"" INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  ""VLTRADERID"" INT(10) UNSIGNED NOT NULL COMMENT 'vltrader alias id',
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON[*] UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  ""ACTAUTORUNCOUNT"" INT(11) DEFAULT NULL COMMENT 'autorun actions current active count',
+  ""ACTINTERACTIVECOUNT"" INT(11) DEFAULT NULL COMMENT 'interactive actions current count',
+  ""ACTSCHEDULEDCOUNT"" INT(11) DEFAULT NULL COMMENT 'scheduled actions count',
+  PRIMARY KEY (""ID""),
+
+  CONSTRAINT ""ACTIVEACTION_IBFK_1"" FOREIGN KEY (""VLTRADERID"") REFERENCES ""VLTRADERS"" (""ID"")
+) "; expected "(, [, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `activeaction` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'active action count incremental ID',
+  `vltraderID` int(10) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `actautoruncount` int(11) DEFAULT NULL COMMENT 'autorun actions current active count',
+  `actinteractivecount` int(11) DEFAULT NULL COMMENT 'interactive actions current count',
+  `actscheduledcount` int(11) DEFAULT NULL COMMENT 'scheduled actions count',
+  PRIMARY KEY (`ID`),
+
+  CONSTRAINT `activeaction_ibfk_1` FOREIGN KEY (`vltraderid`) REFERENCES `vltraders` (`ID`)
+) [42001-170]
+03-13 10:48:21 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""CPUREC"" (
+  ""ID"" INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'cpu metric record incremental ID',
+  ""VLTRADERID"" INT(11) UNSIGNED NOT NULL COMMENT 'vltrader alias id',
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON[*] UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  ""VLTCPUPERCENTAGE"" INT(11) DEFAULT NULL COMMENT 'vltrader cpu usage percentage',
+  ""VLTCPUTIME"" INT(11) DEFAULT NULL COMMENT 'vltrader cpu time',
+  PRIMARY KEY (""ID""),
+  KEY ""VLTRADERALIAS"" (""VLTRADERID""),
+  CONSTRAINT ""VLTRADERALIAS"" FOREIGN KEY (""VLTRADERID"") REFERENCES ""VLTRADERS"" (""ID"")
+) "; expected "(, [, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `cpurec` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'cpu metric record incremental ID',
+  `vltraderID` int(11) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `vltcpupercentage` int(11) DEFAULT NULL COMMENT 'vltrader cpu usage percentage',
+  `vltcputime` int(11) DEFAULT NULL COMMENT 'vltrader cpu time',
+  PRIMARY KEY (`ID`),
+  KEY `vltraderAlias` (`vltraderID`),
+  CONSTRAINT `vltraderAlias` FOREIGN KEY (`vltraderID`) REFERENCES `vltraders` (`ID`)
+) [42001-170]
+03-13 10:48:47 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""CPUREC"" (
+  ""ID"" INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'cpu metric record incremental ID',
+  ""VLTRADERID"" INT(11) UNSIGNED NOT NULL COMMENT 'vltrader alias id',
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT NOW() ON[*] UPDATE NOW() COMMENT 'timestamp',
+  ""VLTCPUPERCENTAGE"" INT(11) DEFAULT NULL COMMENT 'vltrader cpu usage percentage',
+  ""VLTCPUTIME"" INT(11) DEFAULT NULL COMMENT 'vltrader cpu time',
+  PRIMARY KEY (""ID""),
+  KEY ""VLTRADERALIAS"" (""VLTRADERID""),
+  CONSTRAINT ""VLTRADERALIAS"" FOREIGN KEY (""VLTRADERID"") REFERENCES ""VLTRADERS"" (""ID"")
+) "; expected "[, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `cpurec` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'cpu metric record incremental ID',
+  `vltraderID` int(11) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW() COMMENT 'timestamp',
+  `vltcpupercentage` int(11) DEFAULT NULL COMMENT 'vltrader cpu usage percentage',
+  `vltcputime` int(11) DEFAULT NULL COMMENT 'vltrader cpu time',
+  PRIMARY KEY (`ID`),
+  KEY `vltraderAlias` (`vltraderID`),
+  CONSTRAINT `vltraderAlias` FOREIGN KEY (`vltraderID`) REFERENCES `vltraders` (`ID`)
+) [42001-170]
+03-13 10:48:54 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Unknown data type: "VLTRADERALIAS"; SQL statement:
+CREATE TABLE `cpurec` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'cpu metric record incremental ID',
+  `vltraderID` int(11) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT NOW() COMMENT 'timestamp',
+  `vltcpupercentage` int(11) DEFAULT NULL COMMENT 'vltrader cpu usage percentage',
+  `vltcputime` int(11) DEFAULT NULL COMMENT 'vltrader cpu time',
+  PRIMARY KEY (`ID`),
+  KEY `vltraderAlias` (`vltraderID`),
+  CONSTRAINT `vltraderAlias` FOREIGN KEY (`vltraderID`) REFERENCES `vltraders` (`ID`)
+) [50004-170]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:3653)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:3516)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:5212)
+	at org.h2.command.Parser.parseCreate(Parser.java:3805)
+	at org.h2.command.Parser.parsePrepared(Parser.java:323)
+	at org.h2.command.Parser.parse(Parser.java:278)
+	at org.h2.command.Parser.parse(Parser.java:250)
+	at org.h2.command.Parser.prepareCommand(Parser.java:217)
+	at org.h2.engine.Session.prepareLocal(Session.java:414)
+	at org.h2.engine.Session.prepareCommand(Session.java:363)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:164)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1311)
+	at org.h2.server.web.WebApp.query(WebApp.java:1001)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:964)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:953)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+03-13 10:49:09 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ""CPUREC"" (
+  ""ID"" INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'cpu metric record incremental ID',
+  ""VLTRADERID"" INT(11) UNSIGNED NOT NULL COMMENT 'vltrader alias id',
+  ""TIMESTAMP"" TIMESTAMP NOT NULL DEFAULT NOW() ON[*] UPDATE NOW() COMMENT 'timestamp',
+  ""VLTCPUPERCENTAGE"" INT(11) DEFAULT NULL COMMENT 'vltrader cpu usage percentage',
+  ""VLTCPUTIME"" INT(11) DEFAULT NULL COMMENT 'vltrader cpu time',
+  PRIMARY KEY (""ID""),
+
+  CONSTRAINT ""VLTRADERALIAS"" FOREIGN KEY (""VLTRADERID"") REFERENCES ""VLTRADERS"" (""ID"")
+) "; expected "[, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, REGEXP, IS, IN, BETWEEN, AND, OR, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `cpurec` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'cpu metric record incremental ID',
+  `vltraderID` int(11) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW() COMMENT 'timestamp',
+  `vltcpupercentage` int(11) DEFAULT NULL COMMENT 'vltrader cpu usage percentage',
+  `vltcputime` int(11) DEFAULT NULL COMMENT 'vltrader cpu time',
+  PRIMARY KEY (`ID`),
+
+  CONSTRAINT `vltraderAlias` FOREIGN KEY (`vltraderID`) REFERENCES `vltraders` (`ID`)
+) [42001-170]
+03-13 10:50:36 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Unknown data type: "VLTRADERID"; SQL statement:
+CREATE TABLE `memoryrec` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'memory metric record ID autoimcrement',
+  `vltraderID` int(11) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT NOW()  COMMENT 'timestamp',
+  `heapmemoryconsumed` bigint(20) DEFAULT NULL COMMENT 'heap memory consumed in bytes',
+  `permgenmemoryconsumed` bigint(20) DEFAULT NULL COMMENT 'perm gen memory consumed',
+  PRIMARY KEY (`ID`),
+  KEY `vltraderID` (`vltraderID`),
+  CONSTRAINT `memoryrec_ibfk_2` FOREIGN KEY (`vltraderID`) REFERENCES `vltraders` (`ID`)
+) [50004-170]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:3653)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:3516)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:5212)
+	at org.h2.command.Parser.parseCreate(Parser.java:3805)
+	at org.h2.command.Parser.parsePrepared(Parser.java:323)
+	at org.h2.command.Parser.parse(Parser.java:278)
+	at org.h2.command.Parser.parse(Parser.java:250)
+	at org.h2.command.Parser.prepareCommand(Parser.java:217)
+	at org.h2.engine.Session.prepareLocal(Session.java:414)
+	at org.h2.engine.Session.prepareCommand(Session.java:363)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:164)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1311)
+	at org.h2.server.web.WebApp.query(WebApp.java:1001)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:964)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:953)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+03-13 10:53:31 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "STORAGEREC" already exists; SQL statement:
+CREATE TABLE `storagerec` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'storage metric record auto increment ID',
+  `vltraderID` int(11) unsigned NOT NULL COMMENT 'vltrader alias id',
+  `timestamp` timestamp NOT NULL DEFAULT NOW()  COMMENT 'timestamp',
+  `diskspaceused` bigint(20) DEFAULT NULL COMMENT 'storage space used in bytes',
+  `totaldiskspace` bigint(20) DEFAULT NULL COMMENT 'total storagespace in bytes',
+  PRIMARY KEY (`ID`),
+  
+  CONSTRAINT `storagerec_ibfk_1` FOREIGN KEY (`vltraderID`) REFERENCES `vltraders` (`ID`)
+) [42101-170]

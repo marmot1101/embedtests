@@ -475,4 +475,7 @@ public abstract class AbstractDBTestClass {
     ps.close();
     conn.setAutoCommit(true);
   }
+  public void restore() throws Exception{
+    
+  }
 }

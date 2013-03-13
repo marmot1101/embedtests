@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.hsqldb.Server;
+import org.hsqldb.lib.tar.DbBackup;
 
 /**
  *
@@ -26,7 +27,9 @@ public class HSQLtest extends AbstractDBTestClass{
         try{
             HSQLtest obj = new HSQLtest();
             obj.init();
-            obj.test();
+            String tableName = obj.createSixWideTable();
+            obj.bigWriteTest(tableName);
+            //obj.test();
             obj.backupDB();
             obj.closeAndStop();
             System.exit(0);
@@ -97,10 +100,12 @@ public class HSQLtest extends AbstractDBTestClass{
         return "";
   }
   public  void backupDB()throws Exception{
-      String sql = "BACKUP DATABASE TO '/home/josh/bk/'";
+      String sql = "BACKUP DATABASE TO 'bk.tgz'";
       Statement s = conn.createStatement();
       s.execute(sql);
       s.close();
+    
+    
       
   }
   

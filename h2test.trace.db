@@ -1,14 +1,32 @@
-03-04 13:41:41 pageStore: Transaction log could not be truncated; size: 16 MB
-03-04 13:43:41 jdbc[2]: exception
-org.h2.jdbc.JdbcSQLException: The object is already closed [90007-170]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
-	at org.h2.message.DbException.get(DbException.java:169)
-	at org.h2.message.DbException.get(DbException.java:146)
-	at org.h2.message.DbException.get(DbException.java:135)
-	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1388)
-	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1366)
-	at org.h2.jdbc.JdbcConnection.createStatement(JdbcConnection.java:192)
-	at embeddeddbtests.H2test.backupDB(H2test.java:113)
-	at embeddeddbtests.H2test.main(H2test.java:36)
-03-04 13:45:07 pageStore: Transaction log could not be truncated; size: 17 MB
-03-04 15:18:13 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 08:15:12 pageStore: Transaction log could not be truncated; size: 16 MB
+03-07 08:15:26 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 08:18:54 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 08:20:40 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 08:45:59 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 08:57:35 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 09:04:52 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 09:05:30 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 09:25:31 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 09:25:55 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 09:27:28 pageStore: Transaction log could not be truncated; size: 17 MB
+03-07 09:27:51 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 10:58:19 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 10:58:45 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 10:59:38 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 11:00:04 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 14:57:52 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:02:09 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:02:54 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:03:32 pageStore: Transaction log could not be truncated; size: 16 MB
+03-11 15:11:04 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:11:21 pageStore: Transaction log could not be truncated; size: 16 MB
+03-11 15:13:28 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:13:45 pageStore: Transaction log could not be truncated; size: 16 MB
+03-11 15:14:03 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:20:47 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:21:17 pageStore: Transaction log could not be truncated; size: 16 MB
+03-11 15:30:30 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:32:06 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:32:32 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:33:40 pageStore: Transaction log could not be truncated; size: 17 MB
+03-11 15:34:03 pageStore: Transaction log could not be truncated; size: 17 MB

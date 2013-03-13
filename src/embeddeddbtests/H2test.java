@@ -4,15 +4,21 @@
  */
 package embeddeddbtests;
 
+import java.io.FileReader;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.lang.management.ThreadMXBean;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import org.h2.tools.RunScript;
+import org.h2.tools.Script;
 import org.h2.tools.Server;
+import org.hsqldb.server.WebServer;
 
 /**
  *
@@ -27,28 +33,63 @@ public class H2test extends AbstractDBTestClass {
    */
   public static void main(String[] args) {
     // TODO code application logic here
+    ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
+    RuntimeMXBean runtimeBean = ManagementFactory.getRuntimeMXBean();
+    
+    long start = threadBean.getCurrentThreadCpuTime();
+    
     try {
       H2test obj = new H2test();
       obj.init();
-      obj.test();
+      //obj.test();
+      String tableName = obj.createSixWideTable();
+      
+      obj.bigWriteTest(tableName);
+      boolean test=true;
+      System.out.println("entering server mode");
+//      while(test){
+//        Thread.sleep(1000);
+//      }
+      
+      System.out.println("bk");
       obj.backupDB();
-      obj.closeAndStop();
+      System.out.println("restore");
+      obj.restore();
+      obj.testRead(tableName);
+    //  obj.closeAndStop();
+      long finish = threadBean.getCurrentThreadCpuTime();
+    System.out.println("start:"+start);
+    System.out.println("finish:"+finish);
       
       System.exit(0);
 
     } catch (Exception e) {
       e.printStackTrace();
     }
+    
 
   }
   Server server;
+  WebServer ws;
 
   public void init() throws Exception {
     //setup server and connection
     long timeIn = System.nanoTime();
     System.out.println("Starting H2...");
     Class.forName("org.h2.Driver");
-    server = Server.createTcpServer();
+    String[] options = {"-tcpAllowOthers"};
+    server = Server.createTcpServer(options);
+    
+    
+    if(!server.isRunning(true)){
+      
+        server.start();
+      }
+//    boolean test=true;
+//    while(test){
+//      
+//    }
+    
     conn = DriverManager.getConnection("jdbc:h2:h2test;", "sa", "");
     long tenkseq = System.nanoTime() - timeIn;
     System.out.println("H2 started in: " + TimeUnit.MILLISECONDS.convert(tenkseq, TimeUnit.NANOSECONDS) + "ms");
@@ -109,11 +150,28 @@ public class H2test extends AbstractDBTestClass {
     return fileName;
   }
   public  void backupDB()throws Exception{
-      String sql = "BACKUP TO ('/home/josh/bk.zip')";
-      Statement s = conn.createStatement();
-      s.execute(sql);
-      s.close();
-      
+    conn.close();
+    Script.execute("jdbc:h2:h2test;", "sa", "", "bk2.sql");
+    conn = getConnection();
+  }
+  
+  public void restore() throws Exception{
+    clearTables();
+    RunScript.execute(conn, new FileReader("bk2.sql"));
+  }
+  public void clearTables()throws Exception{
+    PreparedStatement ps = null;
+    DatabaseMetaData md = conn.getMetaData();
+    System.out.println(md.getDatabaseProductVersion());
+    String[] type = {"TABLE"};
+    ResultSet rs = md.getTables(null, null, "%", type);
+    while (rs.next()) {
+      ps = conn.prepareStatement("DROP TABLE " + rs.getString("TABLE_NAME"));
+      ps.execute();
+      ps.close();
+    }
+    rs.close();
+    ps.close();
   }
   
   public  void importTable(String tableName, String fileName)throws Exception{
